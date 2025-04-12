@@ -68,8 +68,8 @@ PrioriTask is a secure Django web application that helps users organize tasks ef
 
 ```bash
 # Clone the repository
-git clone https://github.com/MarcKyle/moni-project.git
-cd myproject
+git clone https://github.com/ohwhelala/Django.git
+cd Django
 
 # Install dependencies
 pip install -r requirements.txt
