@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrioriTask - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f7f9f4;
+        }
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(107, 170, 42, 0.15);
+        }
+        .logo-container {
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .app-name {
+            color: #6baa2a;
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .checkmark-box {
+            width: 80px;
+            height: 80px;
+            background-color: #6baa2a;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .checkmark {
+            width: 40px;
+            height: 25px;
+            border-bottom: 5px solid white;
+            border-left: 5px solid white;
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+        .sparkles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .sparkle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            opacity: 0.7;
+        }
+        .sparkle::before {
+            content: '*';
+            font-size: 20px;
+            position: absolute;
+        }
+        .sparkle-1 {
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .sparkle-1::before {
+            color: #a5d7f3;
+        }
+        .sparkle-2 {
+            top: 50%;
+            right: -15px;
+            transform: translateY(-50%);
+        }
+        .sparkle-2::before {
+            color: #c7e899;
+        }
+
+        .sparkle-3 {
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .sparkle-3::before {
+            color: #f9e8a0;
+        }
+        .sparkle-4 {
+            top: 50%;
+            left: -15px;
+            transform: translateY(-50%);
+        }
+        .sparkle-4::before {
+            color: #f9c5c5;
+        }
+        .sparkle-5 {
+            top: -15px;
+            right: -15px;
+        }
+        .sparkle-5::before {
+            color: #c7e899;
+        }
+        .sparkle-6 {
+            bottom: -15px;
+            left: -15px;
+        }
+        .sparkle-6::before {
+            color: #f9c5c5;
+        }
+        .welcome-text {
+            color: #4d7c1e;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+        form {
+            width: 100%;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            width: 100%;
+            position: relative;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5a7c3c;
+            font-size: 14px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d0e0c0;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input:focus {
+            outline: none;
+            border-color: #6baa2a;
+            box-shadow: 0 0 0 2px rgba(107, 170, 42, 0.1);
+        }
+        .forgot-password {
+            text-align: right;
+            margin-top: 5px;
+        }
+        .forgot-password a {
+            color: #6baa2a;
+            text-decoration: none;
+            font-size: 12px;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #6baa2a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 10px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .login-btn:hover {
+            background-color: #578922;
+        }
+        .register-link {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .register-link p {
+            color: #777;
+            font-size: 12px;
+        }
+        .register-link a {
+            color: #6baa2a;
+            text-decoration: none;
+        }
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+        .error-message {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            text-align: center;
+            background-color: #fdeaea;
+            padding: 8px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Green checkmark logo with sparkles -->
+        <div class="logo-container">
+            <div class="checkmark-box">
+                <div class="checkmark"></div>
+            </div>
+            <!-- Decorative sparkles around the logo -->
+            <div class="sparkles">
+                <div class="sparkle sparkle-1"></div>
+                <div class="sparkle sparkle-2"></div>
+                <div class="sparkle sparkle-3"></div>
+                <div class="sparkle sparkle-4"></div>
+                <div class="sparkle sparkle-5"></div>
+                <div class="sparkle sparkle-6"></div>
+            </div>
+        </div>
+
+        <!-- App Name -->
+        <h1 class="app-name">PrioriTask</h1>
+
+        <!-- Main heading -->
+        <h2 class="welcome-text">Welcome Back!</h2>
+
+        <!-- Error messages display -->
+        {% for message in messages %}
+            <p class="error-message">{{ message }}</p>
+        {% endfor %}
+
+        <!-- Login form -->
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Username field -->
+            <div class="form-group">
+                <label for="username">USERNAME:</label>
+                <input type="text" name="username" id="username" required>
+            </div>
+
+            <!-- Password field -->
+            <div class="form-group">
+                <label for="password">PASSWORD:</label>
+                <input type="password" name="password" id="password" required>
+                <div class="forgot-password">
+                    <a href="#">FORGOT PASSWORD?</a>
+                </div>
+            </div>
+
+            <!-- Login button -->
+            <button type="submit" class="login-btn">LOGIN</button>
+        </form>
+
+        <!-- Registration link -->
+        <div class="register-link">
+            <p>DOESN'T HAVE AN ACCOUNT YET? <a href="{% url 'register' %}">REGISTER HERE</a></p>
+        </div>
+    </div>
+</body>
+</html>
