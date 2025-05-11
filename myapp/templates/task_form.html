@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrioriTask - {{ title }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f7f9f4;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkmark-box {
+            width: 40px;
+            height: 40px;
+            background-color: #6baa2a;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .checkmark {
+            width: 20px;
+            height: 12px;
+            border-bottom: 3px solid white;
+            border-left: 3px solid white;
+            transform: rotate(-45deg) translate(2px, -2px);
+        }
+
+        .app-name {
+            color: #6baa2a;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            color: #6baa2a;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+
+        .task-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(107, 170, 42, 0.15);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .task-header {
+            color: #4d7c1e;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            width: 100%;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5a7c3c;
+            font-size: 14px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d0e0c0;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #6baa2a;
+            box-shadow: 0 0 0 2px rgba(107, 170, 42, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #6baa2a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .cancel-button {
+            background-color: #7f8c8d;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            text-align: center;
+            background-color: #fdeaea;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        .field-error {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <div class="checkmark-box">
+                    <div class="checkmark"></div>
+                </div>
+                <h1 class="app-name">PrioriTask</h1>
+            </div>
+            <div class="nav-links">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'task_list' %}">Tasks</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
+        </div>
+
+        <div class="task-container">
+            <h2 class="task-header">{{ title }}</h2>
+
+            {% if form.errors %}
+                <div class="error-message">
+                    Please correct the errors below.
+                </div>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                        {% for error in form.title.errors %}
+                            <p class="field-error">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        {% for error in form.description.errors %}
+                            <p class="field-error">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="due_date">Due Date:</label>
+                    {{ form.due_date }}
+                    {% if form.due_date.errors %}
+                        {% for error in form.due_date.errors %}
+                            <p class="field-error">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="priority">Priority:</label>
+                    {{ form.priority }}
+                    {% if form.priority.errors %}
+                        {% for error in form.priority.errors %}
+                            <p class="field-error">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    {{ form.status }}
+                    {% if form.status.errors %}
+                        {% for error in form.status.errors %}
+                            <p class="field-error">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                    <a href="{% url 'home' %}" class="action-button cancel-button">Cancel</a>
+                    <button type="submit" class="action-button">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

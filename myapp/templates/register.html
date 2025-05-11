@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>PrioriTask - Register</title>
     <style>
+        /* Your existing CSS styles remain unchanged */
         * {
             margin: 0;
             padding: 0;
@@ -17,7 +18,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #fff;
+            background-color: #f7f9f4; /* Lighter cozy green background */
         }
 
         .login-container {
@@ -27,11 +28,22 @@
             width: 100%;
             max-width: 400px;
             padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(107, 170, 42, 0.15);
         }
 
         .logo-container {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+        }
+
+        .app-name {
+            color: #6baa2a;
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 15px;
         }
 
         .checkmark-box {
@@ -134,10 +146,10 @@
         }
 
         .welcome-text {
-            color: #6baa2a;
+            color: #4d7c1e; /* Darker, cozier green */
             text-align: center;
             font-size: 28px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         form {
@@ -153,16 +165,22 @@
         label {
             display: block;
             margin-bottom: 8px;
-            color: #ccc;
+            color: #5a7c3c; /* Cozy green for labels instead of #ccc */
             font-size: 14px;
         }
 
         input {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ccc;
+            border: 1px solid #d0e0c0; /* Light green border instead of #ccc */
             border-radius: 5px;
             font-size: 16px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6baa2a;
+            box-shadow: 0 0 0 2px rgba(107, 170, 42, 0.1);
         }
 
         .login-btn {
@@ -177,6 +195,11 @@
             text-transform: uppercase;
             margin-top: 10px;
             font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #578922;
         }
 
         .register-link {
@@ -185,7 +208,7 @@
         }
 
         .register-link p {
-            color: #ccc;
+            color: #777; /* Darker than #ccc for better readability */
             font-size: 12px;
         }
 
@@ -194,10 +217,24 @@
             text-decoration: none;
         }
 
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
         .error-message {
-            color: red;
+            color: #e74c3c; /* Better red for errors */
             margin-bottom: 15px;
             text-align: center;
+            background-color: #fdeaea;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        /* Style for Django form errors */
+        .field-error {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -218,43 +255,71 @@
                 <div class="sparkle sparkle-6"></div>
             </div>
         </div>
-        
+
+        <!-- App Name -->
+        <h1 class="app-name">PrioriTask</h1>
+
         <!-- Main heading -->
-        <h1 class="welcome-text">Create Account</h1>
+        <h2 class="welcome-text">Create Account</h2>
 
         <!-- Error messages display -->
         {% for message in messages %}
             <p class="error-message">{{ message }}</p>
         {% endfor %}
 
+        <!-- Non-field errors from Django forms -->
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="error-message">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+
         <!-- Registration form -->
         <form method="POST">
             {% csrf_token %}
-            
+
             <!-- Email field -->
             <div class="form-group">
                 <label for="email">EMAIL ADDRESS:</label>
-                <input type="email" name="email" id="email" required
-                       value="{{ email|default:'' }}">
+                {{ form.email }}
+                {% if form.email.errors %}
+                    {% for error in form.email.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
 
             <!-- Username field -->
             <div class="form-group">
                 <label for="username">USERNAME:</label>
-                <input type="text" name="username" id="username" required
-                       value="{{ username|default:'' }}">
+                {{ form.username }}
+                {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
 
             <!-- Password field -->
             <div class="form-group">
                 <label for="password">PASSWORD:</label>
-                <input type="password" name="password" id="password" required>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    {% for error in form.password.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
-            
+
             <!-- Confirm password field -->
             <div class="form-group">
                 <label for="confirm_password">CONFIRM PASSWORD:</label>
-                <input type="password" name="confirm_password" id="confirm_password" required>
+                {{ form.confirm_password }}
+                {% if form.confirm_password.errors %}
+                    {% for error in form.confirm_password.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
 
             <!-- Register button -->

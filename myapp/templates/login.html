@@ -204,6 +204,11 @@
             padding: 8px;
             border-radius: 5px;
         }
+        .field-error {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -235,6 +240,13 @@
             <p class="error-message">{{ message }}</p>
         {% endfor %}
 
+        <!-- Form validation errors -->
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="error-message">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+
         <!-- Login form -->
         <form method="POST">
             {% csrf_token %}
@@ -242,13 +254,23 @@
             <!-- Username field -->
             <div class="form-group">
                 <label for="username">USERNAME:</label>
-                <input type="text" name="username" id="username" required>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
 
             <!-- Password field -->
             <div class="form-group">
                 <label for="password">PASSWORD:</label>
-                <input type="password" name="password" id="password" required>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    {% for error in form.password.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
                 <div class="forgot-password">
                     <a href="#">FORGOT PASSWORD?</a>
                 </div>

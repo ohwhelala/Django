@@ -13,7 +13,7 @@
         }
 
         body {
-            background-color: #f9f9f9;
+            background-color: #f7f9f4;
             color: #333;
         }
 
@@ -208,6 +208,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             padding: 20px;
+            display: none; /* Initially hidden */
         }
 
         .profile-header {
@@ -276,11 +277,19 @@
             margin-top: 10px;
         }
 
-        .todo-content {
+        .task-container {
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .task-header {
+            color: #4d7c1e;
+            margin-bottom: 20px;
+            font-size: 22px;
+            font-weight: bold;
         }
 
         .content-header {
@@ -298,74 +307,62 @@
             color: #333;
         }
 
-        .add-task-btn {
-            padding: 8px 15px;
-            background-color: #6baa2a;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .task-form {
-            display: flex;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eaeaea;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .task-input {
-            flex: 1;
-            min-width: 200px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        .add-btn {
-            padding: 10px 15px;
-            background-color: #6baa2a;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .task-list {
-            list-style-type: none;
-        }
-
         .task-item {
+            padding: 15px;
+            border-bottom: 1px solid #d0e0c0;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #eaeaea;
-            flex-wrap: wrap;
         }
 
-        .task-checkbox {
-            margin-right: 10px;
-            width: 20px;
-            height: 20px;
-            accent-color: #6baa2a;
-            flex-shrink: 0;
+        .task-item:last-child {
+            border-bottom: none;
         }
 
-        .task-text {
-            flex: 1;
-            font-size: 16px;
-            min-width: 150px;
-            word-break: break-word;
+        .task-title {
+            font-weight: bold;
+            color: #5a7c3c;
         }
 
-        .task-completed .task-text {
-            text-decoration: line-through;
-            color: #999;
+        .task-priority-high {
+            color: #e74c3c;
+        }
+
+        .task-priority-medium {
+            color: #f39c12;
+        }
+
+        .task-priority-low {
+            color: #3498db;
+        }
+
+        .task-meta {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .task-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background-color: #f8e5c5;
+            color: #e67e22;
+        }
+
+        .status-in-progress {
+            background-color: #d6eaf8;
+            color: #3498db;
+        }
+
+        .status-completed {
+            background-color: #d4efdf;
+            color: #27ae60;
         }
 
         .task-actions {
@@ -373,31 +370,53 @@
             gap: 10px;
         }
 
-        .edit-btn, .delete-btn {
-            background: none;
+        .action-button {
+            display: inline-block;
+            padding: 5px 10px;
+            margin-left: 5px;
+            background-color: #6baa2a;
+            color: white;
             border: none;
-            cursor: pointer;
-            font-size: 14px;
-            color: #777;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 12px;
         }
 
-        .edit-btn:hover {
-            color: #6baa2a;
+        .delete-button {
+            background-color: #e74c3c;
         }
 
-        .delete-btn:hover {
-            color: #e74c3c;
-        }
-
-        .empty-state {
+        .add-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #6baa2a;
+            color: white;
             text-align: center;
-            padding: 40px 0;
-            color: #999;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;  /* Increased margin to separate from task list */
+            cursor: pointer;
         }
 
-        .empty-state p {
-            margin-top: 10px;
-            font-size: 16px;
+        .error-message {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            text-align: center;
+            background-color: #fdeaea;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        .success-message {
+            color: #27ae60;
+            margin-bottom: 15px;
+            text-align: center;
+            background-color: #d4efdf;
+            padding: 8px;
+            border-radius: 5px;
         }
 
         .tabs {
@@ -479,8 +498,8 @@
                 flex-direction: column;
             }
 
-            .task-input, .add-btn {
-                width: 100%;
+            .task-item {
+                flex-wrap: wrap;
             }
 
             .task-actions {
@@ -547,8 +566,8 @@
                 <div class="user-dropdown">
                     <button class="dropdown-btn">▼</button>
                     <div class="dropdown-content">
-                        <a href="#profile">My Profile</a>
-                        <a href="#account">Account Settings</a>
+                        <a href="#" id="dropdown-profile">My Profile</a>
+                        <a href="#" id="dropdown-account">Account Settings</a>
                         <a href="{% url 'logout' %}">Logout</a>
                     </div>
                 </div>
@@ -564,32 +583,85 @@
             <div class="sidebar" id="sidebar">
                 <h2 class="menu-title">Menu</h2>
                 <ul class="menu-list">
-                    <li class="menu-item active"><a href="#tasks">All Tasks</a></li>
-                    <li class="menu-item"><a href="#today">Today</a></li>
-                    <li class="menu-item"><a href="#upcoming">Upcoming</a></li>
-                    <li class="menu-item"><a href="#completed">Completed</a></li>
-                    <li class="menu-item"><a href="#important">Important</a></li>
-                    <li class="menu-item"><a href="#recently-deleted">Recently Deleted</a></li>
+                    <li class="menu-item active"><a href="#tasks" class="task-nav-link">All Tasks</a></li>
+                    <li class="menu-item"><a href="#today" class="task-nav-link">Today</a></li>
+                    <li class="menu-item"><a href="#upcoming" class="task-nav-link">Important</a></li>
+                    <li class="menu-item"><a href="#pending" class="task-nav-link">Pending</a></li>
+                    <li class="menu-item"><a href="#in-progress" class="task-nav-link">In Progress</a></li>
+                    <li class="menu-item"><a href="#completed" class="task-nav-link">Completed</a></li>
+                    <li class="menu-item"><a href="#recently-deleted" class="task-nav-link">Recently Deleted</a></li>
                 </ul>
 
-                <h2 class="menu-title" style="margin-top: 20px;">Categories</h2>
+                <h2 class="menu-title" style="margin-top: 20px;">Priority</h2>
                 <ul class="menu-list">
-                    <li class="menu-item"><a href="#personal">Personal</a></li>
-                    <li class="menu-item"><a href="#work">Work</a></li>
-                    <li class="menu-item"><a href="#shopping">Shopping</a></li>
-                    <li class="menu-item"><a href="#health">Health</a></li>
+                    <li class="menu-item"><a href="#high" class="task-nav-link">High</a></li>
+                    <li class="menu-item"><a href="#medium" class="task-nav-link">Medium</a></li>
+                    <li class="menu-item"><a href="#low" class="task-nav-link">Low</a></li>
                 </ul>
 
                 <h2 class="menu-title" style="margin-top: 20px;">User</h2>
                 <ul class="menu-list">
-                    <li class="menu-item"><a href="#profile">Profile</a></li>
-                    <li class="menu-item"><a href="#account">Account Settings</a></li>
+                    <li class="menu-item"><a href="#" id="profile-link">Profile</a></li>
+                    <li class="menu-item"><a href="#" id="account-link">Account Settings</a></li>
                 </ul>
             </div>
 
             <!-- Content area -->
             <div class="content-area">
-                <!-- User Profile Card -->
+                <!-- Main Task List Container -->
+                <div class="task-container">
+                    <div class="content-header">
+                        <h2 class="task-header">My Tasks</h2>
+                    </div>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if tasks %}
+                        <div class="task-list">
+                            {% for task in tasks %}
+                                <div class="task-item">
+                                    <div class="task-info">
+                                        <span class="task-title
+                                            {% if task.priority == 'high' %}task-priority-high
+                                            {% elif task.priority == 'medium' %}task-priority-medium
+                                            {% else %}task-priority-low{% endif %}">
+                                            {{ task.title }}
+                                        </span>
+
+                                        <div class="task-meta">
+                                            <span class="task-status status-{{ task.status|slugify }}">
+                                                {{ task.get_status_display }}
+                                            </span>
+
+                                            {% if task.due_date %}
+                                                <small>Due: {{ task.due_date|date:"M d, Y" }}</small>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="task-actions">
+                                        <a href="{% url 'task_detail' task.id %}" class="action-button">View</a>
+                                        <a href="{% url 'task_update' task.id %}" class="action-button">Edit</a>
+                                        <a href="{% url 'task_delete' task.id %}" class="action-button delete-button">Delete</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p style="text-align: center; color: #777; margin: 30px 0;">You have no tasks yet. Create a new task to get started!</p>
+                    {% endif %}
+
+                    <!-- Add Task Button directly below tasks -->
+                    <a href="{% url 'task_create' %}" class="add-button">+ Add New Task</a>
+                </div>
+
+                <!-- User Profile Card - Initially Hidden -->
                 <div class="profile-card">
                     <div class="tabs">
                         <div class="tab active" data-tab="profile-info">Profile Information</div>
@@ -631,11 +703,11 @@
                             <div>
                                 <div class="detail-item">
                                     <div class="detail-label">Tasks Completed</div>
-                                    <div class="detail-value">12</div>
+                                    <div class="detail-value">{{ completed_tasks_count }}</div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">Active Tasks</div>
-                                    <div class="detail-value">5</div>
+                                    <div class="detail-value">{{ active_tasks_count }}</div>
                                 </div>
                             </div>
                         </div>
@@ -664,64 +736,17 @@
                             <button type="button" class="edit-profile-btn">Save Changes</button>
                         </form>
                     </div>
-                </div>
 
-                <!-- To-do list content -->
-                <div class="todo-content">
-                    <div class="content-header">
-                        <h1 class="content-title">All Tasks</h1>
-                        <button class="add-task-btn">+ New Task</button>
-                    </div>
-
-                    <!-- Task input form -->
-                    <form class="task-form">
-                        <input type="text" class="task-input" placeholder="What do you need to do?">
-                        <button type="submit" class="add-btn">Add Task</button>
-                    </form>
-
-                    <!-- Task items -->
-                    <ul class="task-list">
-                        <li class="task-item">
-                            <input type="checkbox" class="task-checkbox">
-                            <span class="task-text">Complete Django authentication assignment</span>
-                            <div class="task-actions">
-                                <button class="edit-btn">Edit</button>
-                                <button class="delete-btn">Delete</button>
-                            </div>
-                        </li>
-                        <li class="task-item task-completed">
-                            <input type="checkbox" class="task-checkbox" checked>
-                            <span class="task-text">Create login page design</span>
-                            <div class="task-actions">
-                                <button class="edit-btn">Edit</button>
-                                <button class="delete-btn">Delete</button>
-                            </div>
-                        </li>
-                        <li class="task-item">
-                            <input type="checkbox" class="task-checkbox">
-                            <span class="task-text">Implement Django views for to-do list</span>
-                            <div class="task-actions">
-                                <button class="edit-btn">Edit</button>
-                                <button class="delete-btn">Delete</button>
-                            </div>
-                        </li>
-                        <li class="task-item">
-                            <input type="checkbox" class="task-checkbox">
-                            <span class="task-text">Add category functionality to tasks</span>
-                            <div class="task-actions">
-                                <button class="edit-btn">Edit</button>
-                                <button class="delete-btn">Delete</button>
-                            </div>
-                        </li>
-                    </ul>
+                    <!-- Back to Tasks button -->
+                    <button id="back-to-tasks" class="edit-profile-btn" style="margin-top: 20px;">Back to Tasks</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Tab functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Tab functionality
             const tabs = document.querySelectorAll('.tab');
             const tabContents = document.querySelectorAll('.tab-content');
 
@@ -747,6 +772,73 @@
             menuToggle.addEventListener('click', () => {
                 sidebar.classList.toggle('active');
                 menuToggle.textContent = sidebar.classList.contains('active') ? '✕ Close' : '☰ Menu';
+            });
+
+            // Profile and Account links from sidebar
+            const profileLink = document.getElementById('profile-link');
+            const accountLink = document.getElementById('account-link');
+            const dropdownProfile = document.getElementById('dropdown-profile');
+            const dropdownAccount = document.getElementById('dropdown-account');
+            const backToTasksBtn = document.getElementById('back-to-tasks');
+            const taskNavLinks = document.querySelectorAll('.task-nav-link');
+
+            // Handle profile link click
+            profileLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Show profile card, hide task container
+                document.querySelector('.profile-card').style.display = 'block';
+                document.querySelector('.task-container').style.display = 'none';
+
+                // Show profile info tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                document.querySelector('[data-tab="profile-info"]').classList.add('active');
+                document.getElementById('profile-info').classList.add('active');
+            });
+
+            // Handle account link click
+            accountLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Show profile card, hide task container
+                document.querySelector('.profile-card').style.display = 'block';
+                document.querySelector('.task-container').style.display = 'none';
+
+                // Show account settings tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                document.querySelector('[data-tab="account-settings"]').classList.add('active');
+                document.getElementById('account-settings').classList.add('active');
+            });
+
+            // Handle dropdown profile click
+            if (dropdownProfile) {
+                dropdownProfile.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    profileLink.click();
+                });
+            }
+
+            // Handle dropdown account click
+            if (dropdownAccount) {
+                dropdownAccount.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    accountLink.click();
+                });
+            }
+
+            // Back to tasks button
+            backToTasksBtn.addEventListener('click', function() {
+                document.querySelector('.profile-card').style.display = 'none';
+                document.querySelector('.task-container').style.display = 'block';
+            });
+
+            // Task links show tasks, hide profile
+            taskNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector('.task-container').style.display = 'block';
+                    document.querySelector('.profile-card').style.display = 'none';
+                });
             });
         });
     </script>

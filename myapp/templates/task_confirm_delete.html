@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrioriTask - Delete Task</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f7f9f4;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkmark-box {
+            width: 40px;
+            height: 40px;
+            background-color: #6baa2a;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .checkmark {
+            width: 20px;
+            height: 12px;
+            border-bottom: 3px solid white;
+            border-left: 3px solid white;
+            transform: rotate(-45deg) translate(2px, -2px);
+        }
+
+        .app-name {
+            color: #6baa2a;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            color: #6baa2a;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+
+        .task-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(107, 170, 42, 0.15);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .task-header {
+            color: #4d7c1e;
+      margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 5px;
+            background-color: #6baa2a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .delete-button {
+            background-color: #e74c3c;
+        }
+
+        .cancel-button {
+            background-color: #7f8c8d;
+        }
+
+        .warning-text {
+            color: #e74c3c;
+            font-size: 14px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <div class="checkmark-box">
+                    <div class="checkmark"></div>
+                </div>
+                <h1 class="app-name">PrioriTask</h1>
+            </div>
+            <div class="nav-links">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'task_list' %}">Tasks</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
+        </div>
+
+        <div class="task-container">
+            <h2 class="task-header">Delete Task</h2>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <p style="font-size: 16px; margin-bottom: 15px;">Are you sure you want to delete the task:</p>
+                <p style="font-weight: bold; font-size: 20px; margin-bottom: 15px;">{{ task.title }}</p>
+                <p class="warning-text">This action cannot be undone.</p>
+            </div>
+
+            <form method="POST" style="text-align: center;">
+                {% csrf_token %}
+                <div style="margin-top: 30px;">
+                    <a href="{% url 'task_list' %}" class="action-button cancel-button">Cancel</a>
+                    <button type="submit" class="action-button delete-button">Confirm Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
