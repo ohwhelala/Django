@@ -64,10 +64,61 @@ def logout_view(request):
     return redirect('login')
 
 
-# Home View (remains the same)
+# Home View
 @login_required(login_url='login')
 def home(request):
-    return render(request, 'home.html')
+    from datetime import datetime, timedelta
+    from django.utils import timezone
+    
+    filter_type = request.GET.get('filter', None)
+    priority_filter = request.GET.get('priority', None)
+    
+    # Start with all user's tasks
+    tasks = Task.objects.filter(user=request.user)
+    
+    # Apply filters
+    if filter_type:
+        if filter_type == 'today':
+            today = timezone.now().date()
+            tasks = tasks.filter(due_date__date=today)
+        elif filter_type == 'important':
+            tasks = tasks.filter(priority='high')
+        elif filter_type == 'pending':
+            tasks = tasks.filter(status='pending')
+        elif filter_type == 'in_progress':
+            tasks = tasks.filter(status='in_progress')
+        elif filter_type == 'completed':
+            tasks = tasks.filter(status='completed')
+    elif priority_filter in ['high', 'medium', 'low']:
+        tasks = tasks.filter(priority=priority_filter)
+    
+    # Split into incomplete and completed tasks
+    incomplete_tasks = tasks.filter(status__in=['pending', 'in_progress']).order_by('due_date', '-priority')
+    completed_tasks = tasks.filter(status='completed').order_by('due_date', '-priority')
+    
+    # Combine the lists
+    tasks = list(incomplete_tasks) + list(completed_tasks)
+
+    # Get task statistics
+    completed_tasks_count = Task.objects.filter(user=request.user, status='completed').count()
+    active_tasks_count = Task.objects.filter(user=request.user, status__in=['pending', 'in_progress']).count()
+    
+    return render(request, 'home.html', {
+        'tasks': tasks,
+        'current_filter': filter_type,
+        'current_priority': priority_filter,
+        'completed_tasks_count': completed_tasks_count,
+        'active_tasks_count': active_tasks_count
+    })
+
+# Mark task as complete
+@login_required(login_url='login')
+def task_complete(request, pk):
+    task = get_object_or_404(Task, pk=pk, user=request.user)
+    task.status = 'completed'
+    task.save()
+    messages.success(request, "Task marked as completed!")
+    return redirect('home')
 
 
 # Task list view (Read operation)
@@ -127,7 +178,7 @@ def task_delete(request, pk):
     if request.method == 'POST':
         task.delete()
         messages.success(request, "Task deleted successfully!")
-        return redirect('task_list')
+        return redirect('home')
 
     return render(request, 'task_confirm_delete.html', {'task': task})
 
