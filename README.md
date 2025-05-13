@@ -80,3 +80,13 @@ python manage.py migrate
 # Start the development server
 python manage.py runserver
 ```
+
+##  Accessing the Django App on Mobile Devices (Local Network)
+
+This project can be accessed on mobile devices connected to the same Wi-Fi network as your development machine. Follow these steps to make it work:
+
+## Prerequisites
+
+- Both your computer (running the Django server) and your mobile device must be connected to the same Wi-Fi network.
+- Ensure your app is running successfully on the desktop first.
+- Firewall settings may need to be adjusted (see below).
