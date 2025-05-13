@@ -85,6 +85,8 @@ python manage.py runserver
 
 This project can be accessed on mobile devices connected to the same Wi-Fi network as your development machine. Follow these steps to make it work:
 
+---
+
 ## Prerequisites
 
 - Both your computer (running the Django server) and your mobile device must be connected to the same Wi-Fi network.
