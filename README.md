@@ -80,15 +80,59 @@ python manage.py migrate
 # Start the development server
 python manage.py runserver
 ```
+---
 
 ##  Accessing the Django App on Mobile Devices (Local Network)
 
 This project can be accessed on mobile devices connected to the same Wi-Fi network as your development machine. Follow these steps to make it work:
-
----
 
 ## Prerequisites
 
 - Both your computer (running the Django server) and your mobile device must be connected to the same Wi-Fi network.
 - Ensure your app is running successfully on the desktop first.
 - Firewall settings may need to be adjusted (see below).
+
+## Steps to Enable Mobile Access
+
+### 1. Run the Django Server on All Interfaces
+By default, Django runs on 127.0.0.1, which is only accessible from your computer. Run the server on 0.0.0.0 instead:
+
+```bash
+python manage.py runserver 0.0.0.0:8000
+```
+This tells Django to listen for requests from any device on the network.
+
+### 2. Find Your Local IP Address
+On your development machine (Windows example):
+- Open Command Prompt and run:
+```bash
+ipconfig
+```
+
+- Look for the IPv4 Address, e.g.:
+```bash
+IPv4 Address. . . . . . . . . . . : 192.168.1.22
+```
+
+This is the IP address your mobile device will use to access the server.
+
+### 3. Add Local IP to ALLOWED_HOSTS
+In your Django project’s settings.py, update the ALLOWED_HOSTS setting to include your local IP address:
+
+```bash
+ALLOWED_HOSTS = ['192.168.1.22', 'localhost', '127.0.0.1']
+```
+Replace 192.168.1.22 with your actual local IP address.
+
+### 4. Access the App from Mobile Browser
+On your mobile device, open a browser and navigate to:
+```bash
+http://192.168.1.22:8000
+```
+(Again, replace with your actual IP address.)
+
+### 5. Optional: Adjust Firewall Settings
+If your mobile device cannot connect:
+- Allow Python through your computer’s firewall (especially on Windows).
+- Temporarily disable firewall to test (not recommended long-term).
+- Ensure port 8000 is not blocked by security software.
